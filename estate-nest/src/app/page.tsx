@@ -3,9 +3,7 @@
 import React from 'react';
 import Login from './components/auth/Login';
 
-const Home = () => {
-  return <Login />;
-};
+const Home = () => <Login />;
 
 export default Home;
 

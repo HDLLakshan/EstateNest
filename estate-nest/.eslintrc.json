@@ -6,6 +6,18 @@
   ],
   "parser": "@typescript-eslint/parser",
   "rules": {
-    "@typescript-eslint/no-explicit-any": "error"
+    "@typescript-eslint/no-explicit-any": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "jsx-a11y/alt-text": "error",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "@next/next/no-img-element": "off", // Disable warnings for <img> tags if you need
+    "@next/next/no-html-link-for-pages": "error", // Ensure <Link> points to valid pages
+    "react/display-name": "off", // Optional, allows anonymous components
+    "react/no-array-index-key": "warn", // Avoid array indices as keys
+    // "no-console": ["warn", { "allow": ["warn", "error"] }], // Warn on console.logs
+    "no-debugger": "warn", // Warn on debugger usage
+    "prefer-const": "error", // Use const over let where possible
+    "arrow-body-style": ["warn", "as-needed"] // Simplify arrow functions
   }
 }
