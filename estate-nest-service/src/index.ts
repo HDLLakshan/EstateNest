@@ -1,8 +1,8 @@
-import express, { Application } from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cors from "cors";
-import authRoutes from "./routes/auth";
+import express, { Application } from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import authRoutes from './routes/auth';
 // Load environment variables
 dotenv.config();
 
@@ -16,12 +16,12 @@ app.use(express.json());
 // Connect to MongoDB
 mongoose
   .connect(process.env.MONGO_URI as string)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
 // Routes
 
-app.use("/api/auth", authRoutes);
+app.use('/api/auth', authRoutes);
 
 // Start Server
 app.listen(PORT, () => {
