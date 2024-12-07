@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { toast } from "react-toastify";
-import Button from "../form/Button";
-import InputField from "../form/InputField";
+import React from 'react';
+import Image from 'next/image';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { toast } from 'react-toastify';
+import Button from '../form/Button';
+import InputField from '../form/InputField';
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -29,23 +29,23 @@ const Login = () => {
     const { email, password } = loginValues;
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        toast(data.message || "Login failed");
+        toast(data.message || 'Login failed');
       } else {
-        toast("Login successful");
-        window.location.href = "/dashboard"; // Redirect on success
+        toast('Login successful');
+        window.location.href = '/dashboard'; // Redirect on success
       }
     } catch (error) {
       console.log(error);
-      toast("Something went wrong");
+      toast('Something went wrong');
     }
   };
 
@@ -70,18 +70,16 @@ const Login = () => {
             id="email"
             type="email"
             label="Email address"
-            {...register("email")} // Integrate with React Hook Form
+            {...register('email')} // Integrate with React Hook Form
             placeholder="Enter your email"
           />
-          {errors.email && (
-            <p className="text-sm text-red-600">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
 
           <InputField
             id="password"
             type="password"
             label="Password"
-            {...register("password")} // Integrate with React Hook Form
+            {...register('password')} // Integrate with React Hook Form
             placeholder="Enter your password"
           />
           {errors.password && (

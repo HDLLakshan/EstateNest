@@ -1,14 +1,14 @@
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
 const Dashboard = async () => {
   const cookieStore = cookies();
-  const token = (await cookieStore).get("token")?.value;
+  const token = (await cookieStore).get('token')?.value;
   console.log(token);
   if (!token) {
     // Redirect to login if no token
     return {
       redirect: {
-        destination: "/",
+        destination: '/',
         permanent: false,
       },
     };

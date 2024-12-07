@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from 'react';
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -12,7 +12,7 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder,
   required = false,
   autoComplete,
-  className = "",
+  className = '',
   ...rest
 }) => {
   return (

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 interface ButtonProps {
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;
@@ -9,10 +9,10 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  type = "button",
+  type = 'button',
   children,
   onClick,
-  className = "",
+  className = '',
   disabled = false,
 }) => {
   return (
