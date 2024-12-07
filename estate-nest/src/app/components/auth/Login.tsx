@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="w-full max-w-sm p-4 bg-white border border-primary-light rounded-lg shadow sm:p-6 md:p-8 dark:bg-primary-dark dark:border-gray-700 m-auto">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Image
           alt="Estate Nest"

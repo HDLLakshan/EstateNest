@@ -1,11 +1,18 @@
-import Logout from '../components/auth/Logout';
-import Navbar from '../ui/navbar';
+import Card from '../components/card';
+import { pages } from '../utils/const';
 
 const Dashboard = async () => (
-  <div>
-    <Navbar />
-    <h1>Welcome to the Dashboard</h1>
-    <Logout />
+  <div className="w-full flex justify-center p-2">
+    <div className="m-auto space-y-4">
+      {pages.map((page) => (
+        <Card
+          key={page.name}
+          name={page.name}
+          url="/estate-management"
+          description={page.description}
+        />
+      ))}
+    </div>
   </div>
 );
 

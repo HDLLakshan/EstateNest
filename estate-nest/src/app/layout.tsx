@@ -30,7 +30,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Navbar />
-        <main>{children}</main>
+        <main>
+          <div className="max-w-[77rem] min-h-[calc(100vh-70px)] mx-auto border-solid border-2 border-t-0  border-gray-200 dark:border-gray-600 p-4">
+            {children}
+          </div>
+        </main>
         <ToastContainer />
       </body>
     </html>
