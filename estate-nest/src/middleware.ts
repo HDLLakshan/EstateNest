@@ -2,11 +2,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(req: NextRequest) {
-  console.log('middleware');
   const token = req.cookies.get('token');
-  const isAuthPage = req.nextUrl.pathname === '';
-  console.log(token);
-  // Redirect logged-in users away from auth pages
+  const isAuthPage = req.nextUrl.pathname === '/';
+
   if (isAuthPage && token) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
@@ -19,7 +17,3 @@ export function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
-// Apply middleware only to specific paths
-export const config = {
-  matcher: ['', '/dashboard/:path*'], // Match specific routes
-};
