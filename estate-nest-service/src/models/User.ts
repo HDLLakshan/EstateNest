@@ -31,3 +31,13 @@ export const findUserByEmail = async (email: string): Promise<User | null> => {
   if (error) throw error;
   return data;
 };
+
+// `
+//     CREATE TABLE IF NOT EXISTS users (
+//       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+//       name TEXT NOT NULL,
+//       email TEXT UNIQUE NOT NULL,
+//       password TEXT NOT NULL,
+//       created_at TIMESTAMP DEFAULT NOW()
+//     );
+//   `
