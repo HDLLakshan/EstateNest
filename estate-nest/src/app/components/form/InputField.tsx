@@ -2,6 +2,7 @@ import React, { InputHTMLAttributes } from 'react';
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  error?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -13,6 +14,7 @@ const InputField: React.FC<InputFieldProps> = ({
   required = false,
   autoComplete,
   className = '',
+  error,
   ...rest
 }) => (
   <div>
@@ -32,6 +34,7 @@ const InputField: React.FC<InputFieldProps> = ({
              sm:text-sm/6 ${className}`}
         {...rest}
       />
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </div>
   </div>
 );

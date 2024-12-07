@@ -9,8 +9,8 @@ const Logout = () => {
   };
 
   return (
-    <div>
-      <Button type="submit" onClick={handleLogout}>
+    <div className="w-full flex justify-end pr-4">
+      <Button type="submit" onClick={handleLogout} className="w-40">
         Logout
       </Button>
     </div>

@@ -5,9 +5,10 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { toast } from 'react-toastify';
 import Button from '../form/Button';
 import InputField from '../form/InputField';
+import { toastify } from '../Toast';
+import { LoadingSVG } from '../form/Loading';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -20,7 +21,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
@@ -37,15 +38,11 @@ const Login = () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        toast(data.message || 'Login failed');
-      } else {
-        toast('Login successful');
-        window.location.href = '/dashboard'; // Redirect on success
-      }
+      if (!res.ok) toastify(data.message || 'Login failed');
+      else window.location.href = '/dashboard';
     } catch (error) {
       console.log(error);
-      toast('Something went wrong');
+      toastify('Something went wrong');
     }
   };
 
@@ -70,23 +67,25 @@ const Login = () => {
             id="email"
             type="email"
             label="Email address"
-            {...register('email')} // Integrate with React Hook Form
+            {...register('email')}
             placeholder="Enter your email"
+            error={errors?.email?.message}
+            disabled={isSubmitting}
           />
-          {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
 
           <InputField
             id="password"
             type="password"
             label="Password"
-            {...register('password')} // Integrate with React Hook Form
+            {...register('password')}
             placeholder="Enter your password"
+            error={errors?.password?.message}
+            disabled={isSubmitting}
           />
-          {errors.password && (
-            <p className="text-sm text-red-600">{errors.password.message}</p>
-          )}
 
-          <Button type="submit">Sign in</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? <LoadingSVG text="Sign in ..." /> : 'Sign in'}
+          </Button>
         </form>
       </div>
     </div>
