@@ -1,30 +1,33 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import { supabase } from '../utils/supabaseClient';
 
-export interface IUser extends Document {
+export interface User {
+  id: string;
+  name: string;
   email: string;
-  password: string;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  password: string; // Store hashed passwords
 }
 
-const UserSchema: Schema = new Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
+export interface AuthResponse {
+  token: string;
+  user: Omit<User, 'password'>; // Return user data without the password
+}
 
-// Hash password before saving
-UserSchema.pre<IUser>('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
+// Create a new user
+export const createUser = async (user: Omit<User, 'id'>): Promise<User | null> => {
+  const { data, error } = await supabase.from('users').insert([user]);
 
-// Compare password method
-UserSchema.methods.comparePassword = async function (
-  candidatePassword: string,
-): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password);
+  if (error) throw error;
+  return data;
 };
 
-export default mongoose.model<IUser>('User', UserSchema);
+// Find a user by email
+export const findUserByEmail = async (email: string): Promise<User | null> => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
