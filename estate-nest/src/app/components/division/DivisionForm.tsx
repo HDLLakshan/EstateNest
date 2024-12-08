@@ -8,45 +8,54 @@ import InputField from '../form/InputField';
 import Button from '../form/Button';
 import { LoadingSVG } from '../form/Loading';
 import { toastify } from '../Toast';
+import { Division } from '@/app/models/division';
+import useSWR from 'swr';
+import { fetcher } from '@/app/utils/fetcher';
 
 const divisionSchema = z.object({
   name: z.string(),
   code: z.string(),
   size: z.number(),
   numberOfPlants: z.number(),
-  targetKlios: z.number(),
+  targetKilos: z.number(),
 });
 
-type divisionFormValues = z.infer<typeof divisionSchema>;
+const DivisionForm = ({ id }: { id?: string }) => {
+  const { data, isLoading } = useSWR<Division>(
+    id ? `/api/division/${id}` : null,
+    fetcher,
+  );
 
-const AddDivision = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<divisionFormValues>({
+  } = useForm<Division>({
     resolver: zodResolver(divisionSchema),
+    values: data as Division,
   });
 
-  const onSubmit = async (divisionValues: divisionFormValues) => {
-    const { name, code, size, numberOfPlants, targetKlios } = divisionValues;
+  const onSubmit = async (divisionValues: Division) => {
+    const { name, code, size, numberOfPlants, targetKilos } = divisionValues;
 
     try {
-      const res = await fetch('/api/division', {
-        method: 'POST',
+      const res = await fetch(id ? `/api/division/${id}` : '/api/division', {
+        method: id ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, code, size, numberOfPlants, targetKlios }),
+        body: JSON.stringify({ name, code, size, numberOfPlants, targetKilos }),
       });
 
       const data = await res.json();
 
-      if (!res.ok) toastify(data.message || 'Login failed');
-      else window.location.href = '/dashboard';
+      if (!res.ok) toastify(data.message || 'Division saved failed');
+      else window.location.href = '/estate-management';
     } catch (error) {
       console.log(error);
       toastify('Something went wrong');
     }
   };
+
+  const loading = isSubmitting || isLoading;
 
   return (
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -58,7 +67,7 @@ const AddDivision = () => {
           {...register('name')}
           placeholder="Enter your email"
           error={errors?.name?.message}
-          disabled={isSubmitting}
+          disabled={loading}
         />
 
         <InputField
@@ -68,7 +77,7 @@ const AddDivision = () => {
           {...register('code')}
           placeholder="Enter code for the division"
           error={errors?.code?.message}
-          disabled={isSubmitting}
+          disabled={loading}
         />
 
         <InputField
@@ -78,7 +87,7 @@ const AddDivision = () => {
           {...register('size', { valueAsNumber: true })}
           placeholder="Size of the division"
           error={errors?.size?.message}
-          disabled={isSubmitting}
+          disabled={loading}
         />
 
         <InputField
@@ -88,25 +97,25 @@ const AddDivision = () => {
           {...register('numberOfPlants', { valueAsNumber: true })}
           placeholder="Number Of Plants in the Division Size"
           error={errors?.numberOfPlants?.message}
-          disabled={isSubmitting}
+          disabled={loading}
         />
 
         <InputField
           id="targetKlios"
           type="number"
           label="Target Kilos"
-          {...register('targetKlios', { valueAsNumber: true })}
+          {...register('targetKilos', { valueAsNumber: true })}
           placeholder="Target Klios from the division"
           error={errors?.size?.message}
-          disabled={isSubmitting}
+          disabled={loading}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? <LoadingSVG text="Submit ..." /> : 'Submit'}
+        <Button type="submit" disabled={loading}>
+          {loading ? <LoadingSVG text="Loading ..." /> : 'Submit'}
         </Button>
       </form>
     </div>
   );
 };
 
-export default AddDivision;
+export default DivisionForm;

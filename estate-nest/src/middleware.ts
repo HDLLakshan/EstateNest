@@ -9,9 +9,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
-  // Protect routes that require authentication
-  const protectedRoutes = ['/dashboard', '/profile'];
-  if (protectedRoutes.includes(req.nextUrl.pathname) && !token) {
+  if (!isAuthPage && !token) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
